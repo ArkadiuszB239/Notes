@@ -11,19 +11,27 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class MainPage extends AppCompatActivity {
 
-    private static final int CAMERA_PERMISSION_REQ = 101;
-    private static final int REQUEST_IMG_CAPTURE = 3;
-    private Button galeryActivity;
+    private Button settingsB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_page);
+        initVariables();
         initListeners();
     }
 
-    private void initListeners(){
+    private void initVariables(){
+        settingsB = (Button) findViewById(R.id.settings);
+    }
 
+    private void initListeners(){
+        settingsB.setOnClickListener(
+                v -> {
+                    Intent intent = new Intent(MainPage.this, Settings.class);
+                    startActivity(intent);
+                }
+        );
     }
 
     public void logout(View view){
