@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:layout_margin="30dp">
+
+    <TextView
+        android:id="@+id/panelInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/panelInfo"
+        android:layout_marginTop="30dp"
+        android:gravity="center"
+        android:textSize="30sp"
+        />
+    <TextView
+        android:id="@+id/logInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/logIn"
+        android:gravity="center"
+        android:textSize="30sp"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/panelInfo"
+        />
+
+    <TextView
+        android:id="@+id/usernameLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:height="40dp"
+        android:text="@string/username"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:textSize="15sp"
+        android:layout_below="@+id/logInfo"
+        />
+    <TextView
+        android:id="@+id/passwdLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:height="40dp"
+        android:text="@string/passwd"
+        android:layout_marginTop="15dp"
+        android:gravity="center"
+        android:layout_below="@id/usernameLabel"
+        android:layout_alignRight="@id/usernameLabel"
+        android:layout_alignLeft="@id/usernameLabel"
+        android:textSize="15sp"
+        />
+
+    <EditText
+        android:id="@+id/username"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_toEndOf="@id/usernameLabel"
+        android:layout_toRightOf="@id/usernameLabel"
+        android:layout_alignTop="@id/usernameLabel"
+        android:layout_alignBottom="@id/usernameLabel"
+        android:hint="@string/userNameHint"
+        android:inputType="textEmailAddress"
+        />
+
+    <EditText
+        android:id="@+id/passwd"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_toEndOf="@id/passwdLabel"
+        android:layout_toRightOf="@id/passwdLabel"
+        android:layout_alignTop="@id/passwdLabel"
+        android:layout_alignBottom="@id/passwdLabel"
+        android:hint="@string/passwdHint"
+        android:inputType="textPassword"
+        />
+
+    <Button
+        android:id="@+id/logButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/passwd"
+        android:text="@string/log"
+        android:layout_marginStart="80dp"
+        android:layout_marginLeft="80dp"
+        />
+
+    <Button
+        android:id="@+id/regButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/passwd"
+        android:text="@string/registry"
+        android:layout_toEndOf="@id/logButton"
+        android:layout_toRightOf="@id/logButton"
+        />
+
+</RelativeLayout>

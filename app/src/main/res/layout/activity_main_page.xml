@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainPage"
+    android:layout_margin="40dp">
+
+
+    <TextView
+        android:id="@+id/menu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/menu"
+        android:layout_centerHorizontal="true"
+        android:textAlignment="center"
+        android:gravity="center_horizontal"
+        android:textSize="30sp"
+        />
+
+    <Button
+        android:id="@+id/galery"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/menu"
+        android:layout_marginTop="20dp"
+        android:text="element"
+        android:textSize="20sp"
+        />
+
+    <Button
+        android:id="@+id/paint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/galery"
+        android:layout_marginTop="20dp"
+        android:text="element"
+        android:textSize="20sp"
+        />
+
+    <Button
+        android:id="@+id/logout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_alignParentBottom="true"
+        android:onClick="logout"
+        android:text="@string/logout"
+        />
+</RelativeLayout>
