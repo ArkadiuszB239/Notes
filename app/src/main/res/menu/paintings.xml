@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/normal"
+        app:showAsAction="never"
+        android:title="Normal" />
+
+    <item
+        android:id="@+id/emboss"
+        app:showAsAction="never"
+        android:title="Emboss" />
+
+    <item
+        android:id="@+id/blur"
+        app:showAsAction="never"
+        android:title="Blur" />
+
+    <item
+        android:id="@+id/clear"
+        app:showAsAction="never"
+        android:title="Clear" />
+
+    <item
+        android:id="@+id/colors"
+        app:showAsAction="never"
+        android:title="Colors" />
+
+    <item
+        android:id="@+id/save"
+        app:showAsAction="never"
+        android:title="Save" />
+
+    <item
+        android:id="@+id/upload"
+        app:showAsAction="never"
+        android:title="Upload" />
+
+    <item
+        android:id="@+id/edit"
+        app:showAsAction="never"
+        android:title="Edit" />
+
+    <item
+        android:id="@+id/delete"
+        app:showAsAction="never"
+        android:title="Delete" />
+
+
+</menu>
