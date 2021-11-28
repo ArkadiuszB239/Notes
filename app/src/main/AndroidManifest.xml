@@ -8,8 +8,9 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:usesCleartextTraffic="true"
-        android:theme="@style/Theme.Notes">
+        android:theme="@style/Theme.Notes"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".main.NoteGroupActivity" />
         <activity android:name=".main.account.ChangePassword" />
         <activity android:name=".main.account.Settings" />
         <activity android:name=".main.account.RegistrationActivity" />

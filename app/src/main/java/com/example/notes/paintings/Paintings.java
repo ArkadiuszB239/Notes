@@ -273,21 +273,13 @@ public class Paintings extends AppCompatActivity {
         if(imageUri != null) {
             final StorageReference fileRef = storageReference.child("uploads").child(getFileName(imageUri));
 
-            fileRef.putFile(imageUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                    fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                        @Override
-                        public void onSuccess(Uri uri) {
-                            String url = uri.toString();
+            fileRef.putFile(imageUri).addOnCompleteListener(task -> fileRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                String url = uri.toString();
 
-                            Log.d("DownloadUrl", url);
-                            pd.dismiss();
-                            showToast("Image upload successfull");
-                        }
-                    });
-                }
-            });
+                Log.d("DownloadUrl", url);
+                pd.dismiss();
+                showToast("Image upload successfull");
+            }));
         }
     }
 

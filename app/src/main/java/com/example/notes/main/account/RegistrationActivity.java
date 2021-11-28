@@ -71,11 +71,7 @@ public class RegistrationActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         showToast("Registration Succesfull!");
                         String user_id = firebaseAuth.getCurrentUser().getUid();
-
-                        DatabaseReference current_user_db = databaseReference.child(user_id);
-
-                        current_user_db.child("email").setValue(email);
-
+                        databaseReference.child(user_id);
                         Intent intent = new Intent(RegistrationActivity.this, MainActivity.class);
                         startActivity(intent);
                     } else showToast("Registration Failed!");
