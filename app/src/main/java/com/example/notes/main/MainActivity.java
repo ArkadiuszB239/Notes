@@ -6,7 +6,9 @@ import android.os.Bundle;
 import com.example.notes.R;
 import com.example.notes.main.account.RegistrationActivity;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.widget.Button;
@@ -20,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private Button logInB;
     private Button registrationB;
     private FirebaseAuth firebaseAuth;
+    private FirebaseAuth.AuthStateListener firAuthStateListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +34,13 @@ public class MainActivity extends AppCompatActivity {
         initListeners();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        firebaseAuth.addAuthStateListener(firAuthStateListener);
+    }
+
     private void initComponents() {
         loginE = (EditText) findViewById(R.id.username);
         passwdE = (EditText) findViewById(R.id.passwd);
@@ -40,9 +50,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void checkIsLogged(){
-        if(firebaseAuth.getCurrentUser() != null){
-            startActivity(new Intent(MainActivity.this, MainPage.class));
-        }
+
+        firAuthStateListener = firebaseAuth -> {
+            if(firebaseAuth.getCurrentUser() != null){
+                startActivity(new Intent(MainActivity.this, MainPage.class));
+            }
+        };
     }
 
     private void initListeners() {

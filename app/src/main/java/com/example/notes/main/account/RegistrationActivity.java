@@ -12,10 +12,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.notes.main.MainActivity;
 import com.example.notes.R;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class RegistrationActivity extends AppCompatActivity {
 
@@ -25,6 +23,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private Button backButton;
     private FirebaseAuth firebaseAuth;
     private CheckBox registry;
+    private DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +41,7 @@ public class RegistrationActivity extends AppCompatActivity {
         backButton = (Button) findViewById(R.id.backButton);
         firebaseAuth = FirebaseAuth.getInstance();
         registry = (CheckBox) findViewById(R.id.checkReg);
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("Users");
     }
 
     private void initListeners() {
@@ -70,6 +70,12 @@ public class RegistrationActivity extends AppCompatActivity {
                 task -> {
                     if (task.isSuccessful()) {
                         showToast("Registration Succesfull!");
+                        String user_id = firebaseAuth.getCurrentUser().getUid();
+
+                        DatabaseReference current_user_db = databaseReference.child(user_id);
+
+                        current_user_db.child("email").setValue(email);
+
                         Intent intent = new Intent(RegistrationActivity.this, MainActivity.class);
                         startActivity(intent);
                     } else showToast("Registration Failed!");

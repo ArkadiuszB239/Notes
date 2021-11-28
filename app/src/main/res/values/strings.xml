@@ -2,8 +2,9 @@
     <string name="app_name">Notes</string>
     <string name="action_settings">Settings</string>
 
-    <string name="panelInfo">Panel logowania!</string>
-    <string name="logIn">Zaloguj się:</string>
+    <string name="panelInfo">Dzięki naszej aplikacji będziesz w stanie tworzyć nowe notatki tekstowe oraz grafiki, dodawać zdjęcia oraz przydatne dla Ciebie linki.
+        Najfajniejszą opcją jest to, że będziesz mógł się nimi dzielić</string>
+    <string name="logIn">Witaj w najlepszej aplikacji notatnikowej</string>
     <string name="log">Zaloguj</string>
     <string name="registry">Rejestracja</string>
     <string name="username">E-Mail:</string>
@@ -17,7 +18,7 @@
     <string name="regButton">Zarejestruj</string>
     <string name="backButon">Powrót</string>
     <string name="menu">MENU</string>
-    <string name="logout">Logout</string>
+    <string name="logout">Wyloguj</string>
     <string name="settings">Ustawienia</string>
     <string name="title_activity_settings">Settings</string>
     <string name="deleteUser">Usuń konto</string>
