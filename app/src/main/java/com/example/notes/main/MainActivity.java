@@ -1,8 +1,10 @@
-package com.example.notes;
+package com.example.notes.main;
 
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.example.notes.R;
+import com.example.notes.main.account.RegistrationActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 import androidx.appcompat.app.AppCompatActivity;

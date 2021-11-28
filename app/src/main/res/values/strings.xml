@@ -29,4 +29,6 @@
     <string name="newPasswordRepeatHint">(powtórz nowe hasło)</string>
     <string name="oldPassword">Stare hasło</string>
     <string name="oldPasswordHint">(stare hasło)</string>
+    <string name="managementMenu">Grupy notatkowe</string>
+    <string name="add">Dodaj</string>
 </resources>
