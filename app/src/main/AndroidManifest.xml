@@ -10,6 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Notes"
         android:usesCleartextTraffic="true">
+        <activity android:name=".main.textnotes.TextNotesActivity" />
         <activity android:name=".main.NoteGroupActivity" />
         <activity android:name=".main.account.ChangePassword" />
         <activity android:name=".main.account.Settings" />

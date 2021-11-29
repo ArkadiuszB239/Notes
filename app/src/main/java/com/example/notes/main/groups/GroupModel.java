@@ -7,6 +7,8 @@ public class GroupModel {
     private String name;
     private List<Note> notes;
 
+    public GroupModel() {}
+
     public GroupModel(String name) {
         this.name = name;
         this.notes = new ArrayList<>();

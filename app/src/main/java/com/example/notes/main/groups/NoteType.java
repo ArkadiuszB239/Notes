@@ -1,5 +1,5 @@
 package com.example.notes.main.groups;
 
 public enum NoteType {
-    TEXT, IMAGE
+    TEXT, PAINT, IMAGE, PDF, LINK
 }
