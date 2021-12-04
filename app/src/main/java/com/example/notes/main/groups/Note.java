@@ -1,8 +1,13 @@
 package com.example.notes.main.groups;
 
+import androidx.annotation.Nullable;
+
 public class Note {
     private NoteType type;
     private String content;
+
+    @Nullable
+    private String fileName;
 
     public Note(){ }
 
@@ -25,5 +30,14 @@ public class Note {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    @Nullable
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(@Nullable String fileName) {
+        this.fileName = fileName;
     }
 }

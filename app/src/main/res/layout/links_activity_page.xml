@@ -9,36 +9,36 @@
 
 
     <TextView
-        android:id="@+id/groupNameLabel"
+        android:id="@+id/groupNameLabelL"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="30sp"
         android:gravity="center"
-        android:text="Notatki tekstowe"
+        android:text="Lista linków"
         android:textSize="40sp" />
 
     <ImageView
-        android:id="@+id/addNoteMark"
+        android:id="@+id/addNoteMarkLinks"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_below="@id/groupNameLabel"
+        android:layout_below="@id/groupNameLabelL"
         android:clickable="true"
         android:focusable="true"
         android:layout_centerHorizontal="true"
         app:srcCompat="@drawable/ic_add" />
 
     <TableLayout
-        android:id="@+id/viewTableTextNotes"
+        android:id="@+id/viewTableLinks"
         android:layout_width="match_parent"
         android:layout_marginTop="55dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/groupNameLabel"
+        android:layout_below="@id/groupNameLabelL"
         android:layout_marginBottom="20dp">
 
     </TableLayout>
 
     <Button
-        android:id="@+id/backTextNotesB"
+        android:id="@+id/backLinks"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

@@ -3,14 +3,14 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/noteView"
+        android:id="@+id/pdfView"
         android:layout_width="350sp"
         android:layout_marginLeft="25sp"
         android:layout_marginRight="25sp"
         android:layout_marginTop="5sp"
         android:padding="5sp"
         android:layout_height="wrap_content"
-        android:background="@drawable/text_note_backgroud"
+        android:background="@drawable/bottom_line"
         android:clickable="true"
         android:focusable="true"
         android:text="test" />

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".main.file_sharing.FileSharingActivity">
+
+    <ImageView
+        android:id="@+id/uploadpdf"
+        android:layout_width="158dp"
+        android:layout_height="162dp"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_baseline_picture_as_pdf_24" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Upload A Pdf"
+        android:layout_gravity="center"
+        android:textSize="22sp"
+        android:textStyle="bold" />
+
+    <TableLayout
+        android:id="@+id/viewTablePdfs"
+        android:layout_width="match_parent"
+        android:layout_height="484dp"
+        android:layout_marginTop="55dp"
+        android:layout_marginBottom="20dp">
+
+    </TableLayout>
+
+</LinearLayout>

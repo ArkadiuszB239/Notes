@@ -7,11 +7,9 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.Toast;
@@ -23,8 +21,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.notes.R;
 import com.example.notes.main.account.Settings;
 import com.example.notes.main.groups.GroupModel;
-import com.example.notes.main.groups.Note;
-import com.example.notes.main.groups.NoteType;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -87,7 +83,7 @@ public class MainPage extends AppCompatActivity {
     }
 
     private void loadNotesGroups() {
-        databaseReference.child(user.getUid()).addListenerForSingleValueEvent(
+        databaseReference.child(user.getUid()).child("groups").addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -149,11 +145,8 @@ public class MainPage extends AppCompatActivity {
 
     private void addGroupToDB(String groupName){
         GroupModel model = new GroupModel(groupName);
-        Note note = new Note(NoteType.TEXT, "texttest");
-        model.addNote(note);
         assert user != null;
-        //TODO validation if group exists
-        databaseReference.child(user.getUid()).child(model.getName()).setValue(model);
+        databaseReference.child(user.getUid()).child("groups").child(model.getName()).setValue(model);
     }
 
     public void logout(){

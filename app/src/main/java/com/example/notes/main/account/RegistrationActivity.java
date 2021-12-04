@@ -41,7 +41,7 @@ public class RegistrationActivity extends AppCompatActivity {
         backButton = (Button) findViewById(R.id.backButton);
         firebaseAuth = FirebaseAuth.getInstance();
         registry = (CheckBox) findViewById(R.id.checkReg);
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("Users");
+        databaseReference = FirebaseDatabase.getInstance().getReference();
     }
 
     private void initListeners() {
@@ -71,7 +71,7 @@ public class RegistrationActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         showToast("Registration Succesfull!");
                         String user_id = firebaseAuth.getCurrentUser().getUid();
-                        databaseReference.child(user_id);
+                        databaseReference.child(user_id).child("email").setValue(email);
                         Intent intent = new Intent(RegistrationActivity.this, MainActivity.class);
                         startActivity(intent);
                     } else showToast("Registration Failed!");
