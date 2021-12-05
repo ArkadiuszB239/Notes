@@ -22,6 +22,8 @@ import com.example.notes.R;
 import com.example.notes.main.file_sharing.FileSharingActivity;
 import com.example.notes.main.groups.GroupModel;
 import com.example.notes.main.links.LinksActivity;
+import com.example.notes.main.paintings.Paintings;
+import com.example.notes.main.photos.Photo;
 import com.example.notes.main.textnotes.TextNotesActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -95,6 +97,16 @@ public class NoteGroupActivity extends AppCompatActivity {
     }
 
     private void initListeners() {
+        findViewById(R.id.paintNotes).setOnClickListener(view -> {
+            Intent intent = new Intent(this, Paintings.class);
+            intent.putExtra("groupName", groupName);
+            startActivity(intent);
+        });
+        findViewById(R.id.imageNotes).setOnClickListener(view -> {
+            Intent intent = new Intent(this, Photo.class);
+            intent.putExtra("groupName", groupName);
+            startActivity(intent);
+        });
         findViewById(R.id.backNotes).setOnClickListener(v -> startActivity(new Intent(this, MainPage.class)));
         findViewById(R.id.textNotes).setOnClickListener(v -> {
             Intent intent = new Intent(this, TextNotesActivity.class);

@@ -6,6 +6,14 @@
     android:layout_height="match_parent"
     tools:context=".main.NoteGroupActivity">
 
+    <ImageView
+        android:id="@+id/ivTitle"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginStart="55dp"
+        android:layout_marginEnd="55dp"
+        android:gravity="center_horizontal"
+        app:srcCompat="@mipmap/main_title_foreground" />
 
     <TextView
         android:id="@+id/groupNameLabel"
@@ -13,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="30sp"
         android:gravity="center"
-        android:textSize="40sp"
+        android:textSize="20sp"
         android:text=""
         />
 
@@ -26,8 +34,10 @@
             android:id="@+id/textNotes"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginStart="80dp"
+            android:layout_marginEnd="80dp"
             android:text="Notatki tekstowe"
-            android:textSize="30sp"
+            android:textSize="20sp"
             />
     </TableRow>
     <TableRow
@@ -39,8 +49,10 @@
             android:id="@+id/paintNotes"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginStart="80dp"
+            android:layout_marginEnd="80dp"
             android:text="Paint"
-            android:textSize="30sp"
+            android:textSize="20sp"
             />
     </TableRow>
     <TableRow
@@ -52,8 +64,10 @@
             android:id="@+id/imageNotes"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginStart="80dp"
+            android:layout_marginEnd="80dp"
             android:text="Zdjęcia"
-            android:textSize="30sp"
+            android:textSize="20sp"
             />
     </TableRow>
     <TableRow
@@ -65,8 +79,10 @@
             android:id="@+id/pdfNotes"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginStart="80dp"
+            android:layout_marginEnd="80dp"
             android:text="Pdf i inne zalaczniki"
-            android:textSize="30sp"
+            android:textSize="20sp"
             />
     </TableRow>
     <TableRow
@@ -78,8 +94,10 @@
             android:id="@+id/linkNotes"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginStart="80dp"
+            android:layout_marginEnd="80dp"
             android:text="Lista linkow"
-            android:textSize="30sp"
+            android:textSize="20sp"
             />
     </TableRow>
 
@@ -88,9 +106,11 @@
         android:id="@+id/backNotes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="350px"
+        android:layout_marginStart="80dp"
+        android:layout_marginEnd="80dp"
+        android:layout_marginTop="30dp"
         android:text="Powrot"
-        android:textSize="30sp" />
+        android:textSize="20sp" />
 
 
 </TableLayout>

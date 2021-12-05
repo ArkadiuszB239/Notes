@@ -1,4 +1,4 @@
-package com.example.notes.paintings;
+package com.example.notes.main.paintings;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -26,6 +26,7 @@ public class PaintView extends View {
     private Path mPath;
     private Paint mPaint;
     private ArrayList<FingerPath> paths = new ArrayList<>();
+    //private ArrayList<Stroke> strokePaths = new ArrayList<>();
     private int currentColor;
     private int backgroundColor = DEFAULT_BG_COLOR;
     private int strokeWidth;
@@ -93,6 +94,10 @@ public class PaintView extends View {
 
     public void setColors(int color) {
         currentColor = color;
+    }
+
+    public void setStrokeWidth(int width) {
+        strokeWidth = width;
     }
 
     @Override

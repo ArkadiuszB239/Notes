@@ -1,4 +1,4 @@
-package com.example.notes.paintings;
+package com.example.notes.main.paintings;
 
 import android.graphics.Path;
 

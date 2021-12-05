@@ -5,47 +5,47 @@
     <item
         android:id="@+id/normal"
         app:showAsAction="never"
-        android:title="Normal" />
+        android:title="Tradycyjny pędzel" />
 
     <item
         android:id="@+id/emboss"
         app:showAsAction="never"
-        android:title="Emboss" />
+        android:title="Pędzel z cieniem" />
 
     <item
         android:id="@+id/blur"
         app:showAsAction="never"
-        android:title="Blur" />
+        android:title="Rozmyty pędzel" />
 
     <item
         android:id="@+id/clear"
         app:showAsAction="never"
-        android:title="Clear" />
+        android:title="Wyczyść płótno" />
 
     <item
         android:id="@+id/colors"
         app:showAsAction="never"
-        android:title="Colors" />
+        android:title="Wybierz kolor" />
+
+    <item
+        android:id="@+id/stroke"
+        app:showAsAction="never"
+        android:title="Wybierz rozmiar pędzla" />
 
     <item
         android:id="@+id/save"
         app:showAsAction="never"
-        android:title="Save" />
+        android:title="Zapisz w pamięci telefonu" />
 
     <item
         android:id="@+id/upload"
         app:showAsAction="never"
-        android:title="Upload" />
-
-    <item
-        android:id="@+id/edit"
-        app:showAsAction="never"
-        android:title="Edit" />
+        android:title="Zapisz w chmurze" />
 
     <item
         android:id="@+id/delete"
         app:showAsAction="never"
-        android:title="Delete" />
+        android:title="Usuń" />
 
 
 </menu>

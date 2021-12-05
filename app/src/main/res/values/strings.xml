@@ -10,9 +10,9 @@
     <string name="username">E-Mail:</string>
     <string name="passwd">Hasło:</string>
     <string name="passwdChange">Zmień hasło</string>
-    <string name="reg">Akcjaptuje zasady regulaminu.</string>
-    <string name="userNameHint">(e-mail uzytkownika)</string>
-    <string name="passwdHint">(haslo)</string>
+    <string name="reg">Akceptuje zasady regulaminu.</string>
+    <string name="userNameHint">email@address.com</string>
+    <string name="passwdHint">haslo</string>
     <string name="fullName">Imie i Nazwisko:</string>
     <string name="fullNameHint">(pelne imie i nazwisko)</string>
     <string name="regButton">Zarejestruj</string>

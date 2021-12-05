@@ -2,6 +2,8 @@ package com.example.notes.main.account;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Patterns;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -14,6 +16,9 @@ import com.example.notes.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class RegistrationActivity extends AppCompatActivity {
 
@@ -54,10 +59,9 @@ public class RegistrationActivity extends AppCompatActivity {
 
         regButton.setOnClickListener(
                 v -> {
-                    if (validation(loginE) && validation(passwdE))
-                        if(registry.isChecked())saveDataInDB();
-                        else showToast("Check reg acceptation!");
-                    else showToast("Wrong e-mail or passwd!");
+                    if(checkDataEntered()) {
+                        saveDataInDB();
+                    }
                 }
         );
     }
@@ -69,18 +73,61 @@ public class RegistrationActivity extends AppCompatActivity {
         firebaseAuth.createUserWithEmailAndPassword(email, passwd).addOnCompleteListener(
                 task -> {
                     if (task.isSuccessful()) {
-                        showToast("Registration Succesfull!");
+                        showToast("Rejestracja się powiodła!");
                         String user_id = firebaseAuth.getCurrentUser().getUid();
                         databaseReference.child(user_id).child("email").setValue(email);
                         Intent intent = new Intent(RegistrationActivity.this, MainActivity.class);
                         startActivity(intent);
-                    } else showToast("Registration Failed!");
+                    } else showToast("Rejestracja się nie powiodła!");
                 }
         );
+    }
+    private boolean checkDataEntered() {
+        boolean temp = true;
+
+        if(!validation(loginE)) {
+            loginE.setError("Nie podano e-maila!");
+            temp = false;
+        }
+        if(!validation(passwdE)) {
+            passwdE.setError("Nie podano hasła!");
+            temp = false;
+        }
+
+        if(!isEmail(loginE)) {
+            showToast("Błędnie podany e-mail!");
+            temp = false;
+        }
+        if(passwdE.getText().toString().length()<8 && !isValidPassword(passwdE.getText().toString())) {
+            showToast("Błędnie podane hasło!");
+            temp = false;
+        }
+        if(!registry.isChecked()) {
+            showToast("Zaznacz akceptacje regulaminu");
+            temp = false;
+        }
+        return temp;
+    }
+
+    private static boolean isValidPassword(final String password) {
+
+        Pattern pattern;
+        Matcher matcher;
+        final String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{4,}$";
+        pattern = Pattern.compile(PASSWORD_PATTERN);
+        matcher = pattern.matcher(password);
+
+        return matcher.matches();
+
     }
 
     private boolean validation(EditText data) {
         return !data.getText().toString().isEmpty();
+    }
+
+    private boolean isEmail(EditText text) {
+        CharSequence email = text.getText().toString();
+        return (!TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches());
     }
 
     private void showToast(String msg) {

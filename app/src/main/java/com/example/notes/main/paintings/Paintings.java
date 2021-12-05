@@ -1,8 +1,7 @@
-package com.example.notes.paintings;
+package com.example.notes.main.paintings;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
@@ -18,7 +17,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.webkit.MimeTypeMap;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
@@ -26,33 +25,39 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.documentfile.provider.DocumentFile;
-import androidx.swiperefreshlayout.widget.CircularProgressDrawable;
 
 import com.example.notes.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
+import com.example.notes.main.groups.GroupModel;
+import com.example.notes.main.groups.Note;
+import com.example.notes.main.groups.NoteType;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
-import com.squareup.picasso.Picasso;
 
 import java.io.OutputStream;
 
 import yuku.ambilwarna.AmbilWarnaDialog;
+import com.google.android.material.slider.RangeSlider;
 
 public class Paintings extends AppCompatActivity {
 
     private PaintView paintView;
     private int currentColor;
-
     private StorageReference storageReference;
-
+    private DatabaseReference databaseReference;
+    private FirebaseUser firebaseUser;
     private Uri imageUri;
+    private RangeSlider rangeSlider;
+    private String groupName;
 
     ActivityResultLauncher<Intent> activityResultLauncherForUpload = registerForActivityResult(
         new ActivityResultContracts.StartActivityForResult(),
@@ -73,50 +78,52 @@ public class Paintings extends AppCompatActivity {
         });
 
     ActivityResultLauncher<Intent> activityResultLauncherForDelete = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            new ActivityResultCallback<ActivityResult>() {
+        new ActivityResultContracts.StartActivityForResult(),
+        new ActivityResultCallback<ActivityResult>() {
 
-                @Override
-                public void onActivityResult(ActivityResult result) {
-                    if(result.getResultCode() == Activity.RESULT_OK) {
-                        Intent data = result.getData();
+            @Override
+            public void onActivityResult(ActivityResult result) {
+                if(result.getResultCode() == Activity.RESULT_OK) {
+                    Intent data = result.getData();
 
-                        imageUri = null;
-                        imageUri = data.getData();
+                    imageUri = null;
+                    imageUri = data.getData();
 
-                        deleteImage();
+                    deleteImage();
 
-                    }
                 }
-            });
-
-    ActivityResultLauncher<Intent> activityResultLauncherForEdit = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            new ActivityResultCallback<ActivityResult>() {
-
-                @Override
-                public void onActivityResult(ActivityResult result) {
-                    if(result.getResultCode() == Activity.RESULT_OK) {
-                        Intent data = result.getData();
-
-                        imageUri = null;
-                        imageUri = data.getData();
-
-                        //downloadImage();
-
-                    }
-                }
-            });
+            }
+        });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_paintings);
+        initPaint();
+        extractExtras();
+        initFirebase();
+        initRangeSlider();
+    }
+
+    private void initFirebase() {
+        storageReference = FirebaseStorage.getInstance().getReference();
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+    }
+
+    private void initPaint() {
         paintView = findViewById(R.id.painView);
+        rangeSlider = (RangeSlider) findViewById(R.id.rangebar);
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
         paintView.init(metrics);
-        storageReference = FirebaseStorage.getInstance().getReference();
+    }
+
+    private void initRangeSlider() {
+        rangeSlider.setValueFrom(0.0f);
+        rangeSlider.setValueTo(100.0f);
+
+        rangeSlider.addOnChangeListener((slider, value, fromUser) -> paintView.setStrokeWidth((int) value));
     }
 
 
@@ -145,14 +152,14 @@ public class Paintings extends AppCompatActivity {
             case R.id.colors:
                 openDialog(false);
                 return true;
+            case R.id.stroke:
+                setStrokeWidth();
+                return true;
             case R.id.save:
                 save();
                 return true;
             case R.id.upload:
                 openImageForUpload();
-                return true;
-            case R.id.edit:
-                openImageForEdit();
                 return true;
             case R.id.delete:
                 openImageForDelete();
@@ -171,14 +178,11 @@ public class Paintings extends AppCompatActivity {
         activityResultLauncherForUpload.launch(intent);
     }
 
-    public void openImageForEdit() {
-
-        Intent intent = new Intent(Intent.ACTION_EDIT);
-
-        intent.setType("image/*");
-
-        activityResultLauncherForEdit.launch(intent);
-
+    public void setStrokeWidth() {
+        if (rangeSlider.getVisibility() == View.VISIBLE)
+            rangeSlider.setVisibility(View.GONE);
+        else
+            rangeSlider.setVisibility(View.VISIBLE);
     }
 
     public void openImageForDelete() {
@@ -213,30 +217,6 @@ public class Paintings extends AppCompatActivity {
         return result;
     }
 
-    private void downloadImage() {
-        final ProgressDialog pd = new ProgressDialog(this);
-        pd.setMessage("Downloading");
-        pd.show();
-
-//        if(imageUri != null) {
-//            StorageReference filePath = storageReference.child("uploads").child(getFileName(imageUri));
-
-//            filePath.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//                @Override
-//                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//
-//                    pd.dismiss();
-//
-//                    Uri downloadUri = taskSnapshot.getUploadSessionUri();
-//
-//                    Picasso.get().load(downloadUri).into();
-//
-//                    showToast("Uploading finished ...");
-//                }
-//            });
-//        }
-    }
-
     private void deleteImage() {
         final ProgressDialog pd = new ProgressDialog(this);
         pd.setMessage("Deleting");
@@ -244,24 +224,15 @@ public class Paintings extends AppCompatActivity {
         System.out.println(DocumentFile.fromSingleUri(this, imageUri).getName());
 
         if(imageUri != null) {
-            StorageReference filePath = storageReference.child("uploads").child(getFileName(imageUri));
+            StorageReference filePath = storageReference.child(firebaseUser.getUid()).child(getFileName(imageUri));
 
             filePath.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void unused) {
-                    deleteImageFromInternalStorage("1637010402228");
                     pd.dismiss();
                     showToast("Image delete successfully");
                 }
             });
-        }
-    }
-
-    private void deleteImageFromInternalStorage(String filename) {
-        try {
-            deleteFile(filename);
-        } catch(Exception e) {
-            e.printStackTrace();
         }
     }
 
@@ -271,7 +242,7 @@ public class Paintings extends AppCompatActivity {
         pd.show();
 
         if(imageUri != null) {
-            final StorageReference fileRef = storageReference.child("uploads").child(getFileName(imageUri));
+            final StorageReference fileRef = storageReference.child(firebaseUser.getUid()).child(getFileName(imageUri));
 
             fileRef.putFile(imageUri).addOnCompleteListener(task -> fileRef.getDownloadUrl().addOnSuccessListener(uri -> {
                 String url = uri.toString();
@@ -280,6 +251,24 @@ public class Paintings extends AppCompatActivity {
                 pd.dismiss();
                 showToast("Image upload successfull");
             }));
+
+            databaseReference.child(firebaseUser.getUid()).child("groups").child(groupName).addListenerForSingleValueEvent(
+                    new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            GroupModel model = snapshot.getValue(GroupModel.class);
+                            Note note = new Note(NoteType.PAINT, imageUri.toString());
+                            assert model != null;
+                            model.addNote(note);
+                            databaseReference.child(firebaseUser.getUid()).child("groups").child(groupName).setValue(model);
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    }
+            );
         }
     }
 
@@ -331,4 +320,35 @@ public class Paintings extends AppCompatActivity {
         toast.setGravity(Gravity.CENTER, 0, 0);
         toast.show();
     }
+
+    private void extractExtras() {
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            groupName = extras.getString("groupName");
+        }
+    }
+
+//    private void downloadImage() {
+//        final ProgressDialog pd = new ProgressDialog(this);
+//        pd.setMessage("Downloading");
+//        pd.show();
+//
+//        if(imageUri != null) {
+//            StorageReference filePath = storageReference.child("uploads").child(getFileName(imageUri));
+//
+//            filePath.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//                @Override
+//                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//
+//                    pd.dismiss();
+//
+//                    Uri downloadUri = taskSnapshot.getUploadSessionUri();
+//
+//                    Picasso.get().load(downloadUri).into();
+//
+//                    showToast("Uploading finished ...");
+//                }
+//            });
+//        }
+//    }
 }

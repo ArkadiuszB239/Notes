@@ -31,17 +31,17 @@
         android:textSize="15sp"
         android:layout_alignParentStart="true"
         />
+
     <EditText
         android:id="@+id/username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/regLabel"
-        android:layout_toEndOf="@id/usernameLabel"
-        android:layout_alignParentEnd="true"
         android:layout_alignBottom="@id/usernameLabel"
+        android:layout_alignParentEnd="true"
+        android:layout_toEndOf="@id/usernameLabel"
         android:hint="@string/userNameHint"
-        android:inputType="textEmailAddress"
-        />
+        android:inputType="textEmailAddress" />
     <TextView
         android:id="@+id/passwdLabel"
         android:layout_width="wrap_content"
@@ -80,14 +80,13 @@
         android:id="@+id/reg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:height="40dp"
-        android:text="@string/reg"
-        android:layout_marginTop="15dp"
-        android:gravity="center"
-        android:layout_toEndOf="@id/checkReg"
         android:layout_below="@id/passwd"
-        android:textSize="15sp"
-        />
+        android:layout_marginTop="15dp"
+        android:layout_toEndOf="@id/checkReg"
+        android:height="40dp"
+        android:gravity="center"
+        android:text="@string/reg"
+        android:textSize="15sp" />
 
     <Button
         android:id="@+id/regButton"
