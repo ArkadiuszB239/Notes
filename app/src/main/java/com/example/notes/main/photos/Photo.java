@@ -74,7 +74,7 @@ public class Photo extends AppCompatActivity {
         initFirebase();
         initComponents();
 
-        returnBtn.setOnClickListener(view -> startActivity(new Intent(this, NoteGroupActivity.class)));
+        returnBtn.setOnClickListener(view -> startActivity(new Intent(this, NoteGroupActivity.class).putExtra("groupName", groupName)));
 
         capturePhotoBtn.setOnClickListener(view -> {
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);

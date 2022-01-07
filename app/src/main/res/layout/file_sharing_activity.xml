@@ -25,10 +25,16 @@
     <TableLayout
         android:id="@+id/viewTablePdfs"
         android:layout_width="match_parent"
-        android:layout_height="484dp"
+        android:layout_height="406dp"
         android:layout_marginTop="55dp"
         android:layout_marginBottom="20dp">
 
     </TableLayout>
+
+    <Button
+        android:id="@+id/backpdfs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Powrot" />
 
 </LinearLayout>

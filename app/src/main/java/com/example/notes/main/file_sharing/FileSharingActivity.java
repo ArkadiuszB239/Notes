@@ -12,6 +12,7 @@ import android.os.Environment;
 import android.provider.OpenableColumns;
 import android.util.Pair;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -21,9 +22,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.notes.R;
+import com.example.notes.main.NoteGroupActivity;
 import com.example.notes.main.groups.GroupModel;
 import com.example.notes.main.groups.Note;
 import com.example.notes.main.groups.NoteType;
@@ -80,6 +83,7 @@ public class FileSharingActivity extends AppCompatActivity {
             galery.setType("application/pdf");
             startActivityForResult(galery, 1);
         });
+        findViewById(R.id.backpdfs).setOnClickListener(v -> startActivity(new Intent(this, NoteGroupActivity.class).putExtra("groupName", groupName)));
     }
 
     private void extractExtras() {
@@ -116,8 +120,6 @@ public class FileSharingActivity extends AppCompatActivity {
                 return filepath.getDownloadUrl();
             }).addOnCompleteListener((OnCompleteListener<Uri>) task -> {
                 if (task.isSuccessful()) {
-                    // After uploading is done it progress
-                    // dialog box will be dismissed
                     dialog.dismiss();
                     Uri uri = task.getResult();
                     String myurl = uri.toString();
@@ -169,11 +171,17 @@ public class FileSharingActivity extends AppCompatActivity {
                                 TableRow row = (TableRow) LayoutInflater.from(FileSharingActivity.this).inflate(R.layout.pdf_row, null);
                                 TextView tv = row.findViewById(R.id.pdfView);
                                 tv.setText(notePair.second.getFileName());
-                                tv.setOnClickListener(v -> dowloadPdf(notePair.second.getContent(), notePair.second.getFileName()));
-//                                tv.setOnLongClickListener(v -> {
-//                                    openRemovingDialog(notePair.first);
-//                                    return false;
-//                                });
+                                tv.setOnLongClickListener(v -> {
+                                    openRemovingDialog(notePair.first, notePair.second.getFileName());
+                                    return false;
+                                });
+
+                                tv.setOnClickListener(v -> {
+                                    Intent intent = new Intent(v.getContext(), ViewpdfAcitvity.class);
+                                    intent.putExtra("url", notePair.second.getContent());
+                                    startActivity(intent);
+                                });
+
                                 tableLayout.addView(row);
                             }
                             tableLayout.requestLayout();
@@ -188,21 +196,42 @@ public class FileSharingActivity extends AppCompatActivity {
         );
     }
 
-    private void dowloadPdf(String dowloadUrl, String fileName) {
-        downloadFile(this, fileName.split(".")[0], fileName.split(".")[1], Environment.DIRECTORY_DOWNLOADS, dowloadUrl);
+    private void openRemovingDialog(Integer index, String fileName) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(true);
+        builder.setTitle("Potwierdź");
+        builder.setMessage("Czy chcesz usunąć plik " + fileName + "?");
+        builder.setPositiveButton("Confirm",
+                (dialog, which) -> {
+                    deletePdf(index, fileName);
+                });
+        builder.setNegativeButton(android.R.string.cancel, (dialog, which) -> dialog.cancel());
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
-    private void downloadFile(Context context, String fileName, String fileExtension, String destinationDirectory, String url) {
+    private void deletePdf(Integer index, String fileName){
+        databaseReference.child(firebaseUser.getUid()).child("groups").child(groupName).addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.N)
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        GroupModel model = snapshot.getValue(GroupModel.class);
+                        model.removeNoteFromList(index);
+                        databaseReference.child(firebaseUser.getUid()).child("groups").child(groupName).setValue(model)
+                                .addOnCompleteListener(task -> {
+                                    reloadPdfs();
+                                    storageReference.child(firebaseUser.getUid()).child(groupName).child("pdfs").child(fileName).delete();
+                                });
+                    }
 
-        DownloadManager downloadmanager = (DownloadManager) context.
-                getSystemService(Context.DOWNLOAD_SERVICE);
-        Uri uri = Uri.parse(url);
-        DownloadManager.Request request = new DownloadManager.Request(uri);
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
 
-        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-        request.setDestinationInExternalFilesDir(context, destinationDirectory, fileName + fileExtension);
-
-        downloadmanager.enqueue(request);
+                    }
+                }
+        );
     }
 
     private String getFileName(Uri uri) {

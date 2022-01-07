@@ -71,8 +71,8 @@ public class MainPage extends AppCompatActivity {
     }
 
     private void initVariables(){
-        tableLayout = (TableLayout) findViewById(R.id.viewTableGroups);
-        ivAddGroup = (ImageView) findViewById(R.id.addMark);
+        tableLayout = findViewById(R.id.viewTableGroups);
+        ivAddGroup = findViewById(R.id.addMark);
         databaseReference = FirebaseDatabase.getInstance().getReference();
         firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();

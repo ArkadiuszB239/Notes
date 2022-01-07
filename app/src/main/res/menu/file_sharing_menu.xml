@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.notes.main.file_sharing.ViewpdfAcitvity">
+    <item
+        android:id="@+id/action_download"
+        android:orderInCategory="100"
+        android:title="@string/downloadPdf"
+        app:showAsAction="never" />
+</menu>

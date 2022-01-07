@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
+import android.text.method.LinkMovementMethod;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,6 +40,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 public class LinksActivity extends AppCompatActivity {
 
@@ -105,7 +107,7 @@ public class LinksActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         GroupModel model = snapshot.getValue(GroupModel.class);
-                        Note note = new Note(NoteType.LINK, link);
+                        Note note = new Note(NoteType.LINK, transformLinkIntoBetterForm(link));
                         assert model != null;
                         model.addNote(note);
                         databaseReference.child(firebaseUser.getUid()).child("groups").child(groupName).setValue(model)
@@ -138,6 +140,7 @@ public class LinksActivity extends AppCompatActivity {
                             for (Pair<Integer, Note> notePair : notesWithIndexes) {
                                 TableRow row = (TableRow) LayoutInflater.from(LinksActivity.this).inflate(R.layout.link_row, null);
                                 TextView tv = row.findViewById(R.id.linkView);
+                                tv.setMovementMethod(LinkMovementMethod.getInstance());
                                 tv.setText(notePair.second.getContent());
                                 tv.setOnClickListener(v -> openLinkInBrowser(notePair.second.getContent()));
                                 tv.setOnLongClickListener(v -> {
@@ -191,6 +194,13 @@ public class LinksActivity extends AppCompatActivity {
                     }
                 }
         );
+    }
+
+    private String transformLinkIntoBetterForm(String link) {
+        if (link.contains("://")){
+            return link;
+        }
+        return "http://".concat(link);
     }
 
     private void openLinkInBrowser(String link){
