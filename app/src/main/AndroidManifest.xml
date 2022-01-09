@@ -16,6 +16,9 @@
         android:theme="@style/Theme.Notes"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".main.gallery.SingleImage"
+            android:exported="false" />
+        <activity
             android:name=".main.file_sharing.ViewpdfAcitvity"
             android:exported="false" />
         <activity

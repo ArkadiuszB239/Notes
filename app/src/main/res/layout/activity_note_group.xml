@@ -76,6 +76,21 @@
         android:gravity="center_horizontal">
 
         <Button
+            android:id="@+id/galleryNotes"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="80dp"
+            android:layout_marginEnd="80dp"
+            android:text="Galeria obrazów"
+            android:textSize="20sp"
+            />
+    </TableRow>
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal">
+
+        <Button
             android:id="@+id/pdfNotes"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

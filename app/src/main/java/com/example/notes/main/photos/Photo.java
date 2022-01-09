@@ -131,27 +131,30 @@ public class Photo extends AppCompatActivity {
                 String url = uri.toString();
 
                 Log.d("DownloadUrl", url);
+
+                databaseReference.child(firebaseUser.getUid()).child("groups").child(groupName).addListenerForSingleValueEvent(
+                        new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                GroupModel model = snapshot.getValue(GroupModel.class);
+                                Note note = new Note(NoteType.PAINT, url);
+                                assert model != null;
+                                model.addNote(note);
+                                databaseReference.child(firebaseUser.getUid()).child("groups").child(groupName).setValue(model);
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        }
+                );
+
                 pd.dismiss();
                 showToast("Image upload successfull");
             }));
 
-            databaseReference.child(firebaseUser.getUid()).child("groups").child(groupName).addListenerForSingleValueEvent(
-                    new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            GroupModel model = snapshot.getValue(GroupModel.class);
-                            Note note = new Note(NoteType.PAINT, imageUri.toString());
-                            assert model != null;
-                            model.addNote(note);
-                            databaseReference.child(firebaseUser.getUid()).child("groups").child(groupName).setValue(model);
-                        }
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    }
-            );
         }
     }
 

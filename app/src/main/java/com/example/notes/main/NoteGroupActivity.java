@@ -20,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.notes.R;
 import com.example.notes.main.file_sharing.FileSharingActivity;
+import com.example.notes.main.gallery.Gallery;
 import com.example.notes.main.groups.GroupModel;
 import com.example.notes.main.links.LinksActivity;
 import com.example.notes.main.paintings.Paintings;
@@ -104,6 +105,11 @@ public class NoteGroupActivity extends AppCompatActivity {
         });
         findViewById(R.id.imageNotes).setOnClickListener(view -> {
             Intent intent = new Intent(this, Photo.class);
+            intent.putExtra("groupName", groupName);
+            startActivity(intent);
+        });
+        findViewById(R.id.galleryNotes).setOnClickListener(view -> {
+            Intent intent = new Intent(this, Gallery.class);
             intent.putExtra("groupName", groupName);
             startActivity(intent);
         });
